@@ -2,7 +2,7 @@
 
 # Main
 from datetime import timedelta, date
-
+import colorama; from colorama import Fore, Back, Style;
 # Funções para estilização do console
 
 
@@ -35,7 +35,7 @@ class Biblioteca():
     def mostrarLivros(self, escolha): #Método que visualiza o acervo de livros cadastrados (objetos de livros presentes no parâmetro users) permitindo filtra de 3 formas:
                                       #O acervo como o todo. Apenas os livros alugados (que possuem atributo de disponibilidade como false). E os livros como disponíveis (que possuem atributo de disponibildiade como true)
         print(f'{"":-^65}\n'
-            f'| {"TÍTULO":^10} | {"AUTOR":^10} | {"DATA DE DEVOLUÇÃO":^10} | {"DISPONIBILIDADE":^10} |\n'
+            f'| {"TÍTULO":^10} | {"AUTOR":^10} | {"DISPONIBILIDADE":^10} |\n'
             f'{"":-^65}')
         if escolha == 1:
             for livro in self.livros:
@@ -102,7 +102,8 @@ class user():
         livro.disponibilidade = False
         livro.devolucao = data + diffData
         self.livros.append(livro)
-        print("Empréstimo efetuado com sucesso!!!")
+        print(f"Empréstimo efetuado com sucesso!!!\n"
+        f'A data de entrega foi definida para: {livro.devolucao.strftime("%d/%m/%Y")}')
 
     def devolver(self, livro):      #Método que permite ao usuário do sistema de realizar a devolução de um livro. Isso ocorre em partes poseteriores do código (linha 271 - 281), funcionando de forma
                                     #semelhante ao método de alugar em sua execução com outras partes do código, como explicado acima. O usuário insere o título que deseja devolver e é feito uma procura com
@@ -120,7 +121,7 @@ biblioteca = Biblioteca()
 
 
 # Execução do programa
-print(f'{" SISTEMA DE BIBLIOTECA ":^148}')
+print(f'{" SISTEMA DE BIBLIOTECA ":-^148}\n')
 
 Linha()
 print("Por favor, insira a data atual de acordo com o padrão DIA, MÊS E ANO:")
@@ -265,7 +266,6 @@ while True:                                         #O funcionamento do código 
                                                 ano = int(input("ANO:"))
                                                 Linha()
                                                 data = date(ano, mes, dia)
-
                                                 usuario.alugar(livros,data)
                                                 Linha()
                                                 break
@@ -284,7 +284,7 @@ while True:                                         #O funcionamento do código 
                                     else:
                                         break
 
-                            except(TypeError):
+                            except(TypeError,ValueError):
                                 Linha()
                                 print("Digite apenas o solicitado...")
 
