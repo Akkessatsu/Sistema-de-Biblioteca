@@ -2,6 +2,7 @@
 
 # Main
 from datetime import timedelta, date
+from time import sleep
 
 # Funções para estilização do console
 import colorama; from colorama import Fore, Back, Style, init;
@@ -12,6 +13,15 @@ def Linha():
         f'{Fore.CYAN}'
         f'{"":-^73}'
         f'{Fore.RESET}')
+
+import os
+
+def clearConsole():
+    command = 'clear'
+    if os.name in ('nt', 'dos'):  #Código para limpar o console
+        command = 'cls'
+    os.system(command)
+
 
 # Classes
 
@@ -39,11 +49,11 @@ class Biblioteca():
     def mostrarLivros(self, escolha): #Método que visualiza o acervo de livros cadastrados (objetos de livros presentes no parâmetro users) permitindo filtra de 3 formas:
         print(Fore.RESET)                              #O acervo como o todo. Apenas os livros alugados (que possuem atributo de disponibilidade como false). E os livros como disponíveis (que possuem atributo de disponibildiade como true)
         print(f'{Fore.CYAN}'
-            f'{"":-^65}\n'
+            f'{"":-^45}\n'
             f'{Fore.RESET}'
             f'{Fore.CYAN}|{Fore.RESET} {Fore.RED}{"TÍTULO":^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.RED}{"AUTOR":^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.RED}{"DISPONIBILIDADE":^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET}\n'
             f'{Fore.CYAN}'
-            f'{"":-^65}'
+            f'{"":-^45}'
             f'{Fore.RESET}')
         if escolha == 1:
             for livro in self.livros:
@@ -51,13 +61,13 @@ class Biblioteca():
                     livro.status = "Disponível"
                     print(f'{Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.titulo:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.autor:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.status:^15}{Fore.RESET} {Fore.CYAN}|{Fore.RESET}\n'
                     f'{Fore.CYAN}'
-                    f'{"":-^65}'
+                    f'{"":-^45}'
                     f'{Fore.RESET}')
                 else:
                     livro.status = "Alugado"
                     print(f'{Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.titulo:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.autor:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.status:^15}{Fore.RESET} {Fore.CYAN}|{Fore.RESET}\n'
                     f'{Fore.CYAN}'
-                    f'{"":-^65}'
+                    f'{"":-^45}'
                     f'{Fore.RESET}')
 
         elif escolha == 2:
@@ -66,16 +76,15 @@ class Biblioteca():
                     livro.status = "Disponível"
                     print(f'{Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.titulo:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.autor:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.status:^15}{Fore.RESET} {Fore.CYAN}|{Fore.RESET}\n'
                     f'{Fore.CYAN}'
-                    f'{"":-^65}'
+                    f'{"":-^45}'
                     f'{Fore.RESET}')
-                    continue
         else:
             for livro in self.livros:
                 if livro.disponibilidade == False:
                     livro.status = "Alugado"
                     print(f'{Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.titulo:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.autor:^10}{Fore.RESET} {Fore.CYAN}|{Fore.RESET} {Fore.YELLOW}{livro.status:^15}{Fore.RESET} {Fore.CYAN}|{Fore.RESET}\n'
                     f'{Fore.CYAN}'
-                    f'{"":-^65}'
+                    f'{"":-^45}'
                     f'{Fore.RESET}')
                 else:
                     continue
@@ -85,6 +94,7 @@ class Biblioteca():
         for user in self.users:
             print(f'{Fore.MAGENTA}NOME:{Fore.RESET}' 
             f"{Fore.YELLOW}{user.nome:<}{Fore.YELLOW}")
+            sleep(2)
             Linha()
 
     def multar(self, livro, user, dataAtual): #Método que incrementa o atributo multa do usuário se a data de devolução do seu livro for superior à dataAtual, portanto, estaria atrasado
@@ -168,6 +178,7 @@ ano = int(input(f'{Fore.RESET}'
     f'{Fore.RESET}'
     f'{Fore.YELLOW}'))
 Linha()
+clearConsole()
 
 # Variáveis de data
 dataAtual = date(ano,mes,dia) #Objeto que representa a data atual
@@ -177,6 +188,7 @@ diffData = timedelta(days=7) #Representa a diferença entre duas datas, podendo 
 while True:                                         #O funcionamento do código se deu a partir de estruras de decisões, loop's e tratamentos de erro, para o usuário poder realizar diversas operações em apenas um run, e evitar possíveis inputs mal-colocados....
         while True:
             try:
+                clearConsole()
                 choice = int(input(f'{Fore.RED}'
                     f'O que deseja realizar?:\n'
                     f'{Fore.RESET}'
@@ -200,14 +212,18 @@ while True:                                         #O funcionamento do código 
                     print(f'{Fore.LIGHTGREEN_EX}'
                         f"Digite apenas o solicitado...")
                     Linha()
+                    sleep(2)
                     continue
                 break
             except(ValueError, TypeError):
+                Linha()
                 print(f'{Fore.LIGHTGREEN_EX}'
                     f"Digite apenas o solicitado...")
                 Linha()
+                sleep(2)
 
         if choice == 1:
+            clearConsole()
             nome = input(f'{Fore.MAGENTA}'
                 f'Qual o nome da pessoa a ser cadastrada?:\n'
                 f'{Fore.RESET}'
@@ -227,12 +243,14 @@ while True:                                         #O funcionamento do código 
                         f"Usuário já cadastrado!"
                         f"\nEntre em sua conta..."
                         f'{Fore.RESET}')
+                    sleep(2)
 
                 else:
                     biblioteca.cadastrarPessoa(nome)
                     break
 
         if choice == 2:
+            clearConsole()
             titulo = input(f'{Fore.MAGENTA}'
                 f'Qual o nome do livro a ser cadastrado?:\n'
                 f'{Fore.RESET}'
@@ -241,6 +259,7 @@ while True:                                         #O funcionamento do código 
                 f'{Fore.RESET}'
                 f'{Fore.YELLOW}')
             Linha()
+            clearConsole()
             autor = input(f'{Fore.MAGENTA}'
                 f'Qual o nome do autor do livro?:\n'
                 f'{Fore.RESET}'
@@ -255,7 +274,7 @@ while True:                                         #O funcionamento do código 
                 continue
 
             for livro in biblioteca.livros:
-                if livro.lower() == livro.titulo.lower():
+                if livro == str(livro.titulo):
                     Linha()
                     print(f'{Fore.LIGHTGREEN_EX}'
                         f"Livro já cadastrado!"
@@ -266,16 +285,17 @@ while True:                                         #O funcionamento do código 
                         f'{Fore.LIGHTGREEN_EX}'
                         f"Entre em sua conta..."
                         f'{Fore.RESET}')
-
+                    sleep(2)
                 else:
                     biblioteca.cadastrarLivro(titulo,autor)
                     break
         if choice == 3:
             biblioteca.mostrarUsers()
-
+            sleep(5)
         if choice == 4:
             while True:
                 try:
+                    clearConsole()
                     escolha = int(input(f'{Fore.RED}'
                                         f'O que deseja realizar?:\n'
                                         f'{Fore.RESET}'
@@ -295,27 +315,32 @@ while True:                                         #O funcionamento do código 
                     if escolha < 1 or escolha > 3:
                         Linha()
                         print(f"{Fore.LIGHTGREEN_EX}Digite apenas o solicitado...{Fore.RESET}")
+                        sleep(2)
                         continue
 
                     else:
                         biblioteca.mostrarLivros(escolha)
                         Linha()
+                        sleep(5)
                         break
 
                 except(ValueError, TypeError):
                     Linha()
                     print(f"{Fore.LIGHTGREEN_EX}Digite apenas o solicitado...{Fore.RESET}")
+                    sleep(2)
         if choice == 5:
             while True:
+                clearConsole()
                 nome = input(f"{Fore.MAGENTA}Qual o usuário?:{Fore.RESET}\n"
                 f'{Fore.CYAN}{"":-^73}{Fore.RESET}\n'
                 f'{Fore.YELLOW}')
                 Linha()
 
                 for usuario in biblioteca.users:
-                    if nome.lower() == usuario.nome.lower():
+                    if nome == str(usuario.nome):
                         while True:
                             try:
+                                clearConsole()
                                 opcao = int(input(
                                     f"{Fore.RED}Bem-vindo(a) de volta{Fore.RESET} {Fore.YELLOW}{nome}{Fore.RESET} {Fore.RED}!!!{Fore.RESET} "
                                     f'{Fore.CYAN}'
@@ -340,10 +365,12 @@ while True:                                         #O funcionamento do código 
                                 if opcao < 1 or opcao > 3:
                                     Linha()
                                     print(f"{Fore.LIGHTGREEN_EX}Digite apenas o solicitado...{Fore.RESET}")
+                                    sleep(2)
                                     continue
 
                                 else:
                                     if opcao == 1:
+                                        clearConsole()
                                         livro = input(f'{Fore.RESET}'
                                             f'{Fore.CYAN}'
                                             f'{"":-^73}\n'
@@ -357,7 +384,7 @@ while True:                                         #O funcionamento do código 
                                             f'{Fore.YELLOW}')
 
                                         for livros in biblioteca.livros:
-                                            if livro.lower() == livros.titulo.lower():
+                                            if livro == str(livros.titulo):
                                                 Linha()
                                                 print(f"{Fore.RED}Por favor, insira a data do empréstimo de acordo com o padrão DIA, MÊS E ANO:{Fore.RESET}")
                                                 Linha()
@@ -382,6 +409,7 @@ while True:                                         #O funcionamento do código 
                                                 break
                                         
                                     elif opcao == 2:
+                                        clearConsole()
                                         livro = input(f'{Fore.CYAN}'
                                             f'{"":-^73}\n'
                                             f'{Fore.RESET}'
@@ -389,9 +417,10 @@ while True:                                         #O funcionamento do código 
                                         Linha()
 
                                         for livros in usuario.livros:
-                                            if livro.lower() == livros.titulo.lower():
+                                            if livro == str(livros.titulo):
                                                 biblioteca.multar(livros, usuario, dataAtual)
                                                 usuario.devolver(livros)
+                                                sleep(2)
                                                 break
                                     
                                     else:
@@ -400,10 +429,12 @@ while True:                                         #O funcionamento do código 
                             except(TypeError,ValueError):
                                 Linha()
                                 print(f"{Fore.LIGHTGREEN_EX}Digite apenas o solicitado...{Fore.RESET}")
+                                sleep(2)
 
                     else:
                         Linha()
                         print(f"{Fore.LIGHTGREEN_EX}Usuário inserido incorretamente ou não cadastrado...{Fore.RESET}")
+                        sleep(2)    
 
                 if opcao == 3:
                     Linha()
